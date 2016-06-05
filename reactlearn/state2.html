@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Props</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="bower_components/react/react.js"></script>
+<script src="bower_components/react/JSXTransformer.js"></script>
+<script  type="text/jsx">
+    var Message = React.createClass({
+        getInitialState:function(){
+            return {
+                title:'玩转React',
+                isTrue:true
+            }
+        },
+        render:function(){
+            var styleobj = {
+                display:this.state.isTrue ? 'block' : 'none'
+            }
+            return (
+                <div>
+                    <h1 style={styleobj}>{this.state.title}</h1>
+                </div>
+            )
+        }
+    });
+    var MessageBox = React.render(<Message/>,document.getElementById('app'));
+</script>
+</body>
+</html>
