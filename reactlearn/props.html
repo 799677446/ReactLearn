@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Props</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="bower_components/react/react.js"></script>
+<script src="bower_components/react/JSXTransformer.js"></script>
+<script type="text/jsx">
+    var Message = React.createClass({
+        getInitialState:function(){
+            return {
+                title:'学学Props',
+                mess:['我会搬砖','我会花式搬砖','不说了。我要去搬砖了。。。。']
+            }
+        },
+        render:function(){
+            return (
+                <div>
+                    <h1>{this.state.title}</h1>
+                    <SubMessage mess={this.state.mess}  />
+                </div>
+            )
+        }
+    });
+    var SubMessage = React.createClass({
+        propTypes:{
+            mess:React.PropTypes.array.isRequired
+        },
+        getDefaultProps:function(){
+            mess:['默认子消息']
+        },
+        render:function(){
+            var submess = [];
+            this.props.mess.forEach(function(msg,index){
+                submess.push(<p>码农说：{msg}</p>);
+            });
+            return (
+                <div>
+                    {submess}
+                </div>
+            )
+        }
+    });
+    var Messagebox = React.render(<Message/>,document.getElementById('app'));
+</script>
+</body>
+</html>
