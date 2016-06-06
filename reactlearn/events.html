@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>events</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="bower_components/react/react.js"></script>
+<script src="bower_components/react/JSXTransformer.js"></script>
+<script type="text/jsx">
+    var Message = React.createClass({
+        getInitialState:function(){
+            return {
+                inputValue:'input value',
+                selectValue:'selectValue',
+                textareaValue:'click me',
+                radioValue:'B',
+                checkboxValue:[]
+            }
+        },
+        handleSubmit:function(e){
+            e.preventDefault();
+            var formData = {
+                input:this.refs.goodvalue.getDOMNode().value,
+                select:this.refs.goodselect.getDOMNode().value,
+                textarea:this.refs.goodtextarea.getDOMNode().value,
+                radio:this.state.radioValue,
+                checkbox:this.state.checkboxValue
+            }
+            this.refs.goodRadio.saySomething();
+            console.log(formData);
+        },
+        handleRadio:function(e){
+            this.setState({
+                radioValue:e.target.value
+            })
+        },
+        handleCheck:function(e){
+            var checkValue = this.state.checkboxValue.slice();
+            var newCheck = e.target.value;
+            var index = checkValue.indexOf(newCheck);
+            if(index==-1){
+                checkValue.push(newCheck);
+            }else{
+                checkValue.splice(index,1);
+            }
+            this.setState({
+                checkboxValue:checkValue
+            });
+
+        },
+        render:function(){
+            return (
+                <form onSubmit={this.handleSubmit}>
+                    <input ref="goodvalue" type="text" defaultValue={this.state.inputValue} /><br/>
+                    <select ref="goodselect" defaultVale={this.state.selectValue}>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                    </select><br/>
+                    <RadioMessage ref="goodRadio" handleRadio={this.handleRadio}/><br/>
+                    <CheckMessage handleCheck={this.handleCheck}/><br/>
+                    <textarea ref="goodtextarea" defaultValue={this.state.textareaValue}></textarea><br/>
+                    <button type="submit">提交</button>
+                </form>
+            )
+        }
+    });
+    var RadioMessage = React.createClass({
+        saySomething:function(){
+            alert("yo what's up man!");
+        },
+        render:function(){
+            return (
+                <span>
+                    <input onChange={this.props.handleRadio} type="radio" name="goodradio" value="A"/>
+                    <input onChange={this.props.handleRadio} type="radio" name="goodradio" defaultChecked  value="B"/>
+                    <input onChange={this.props.handleRadio} type="radio" name="goodradio" value="C"/>
+                </span>
+            )
+        }
+    });
+    var CheckMessage = React.createClass({
+        render:function(){
+            return (
+                <span>
+                    <input onChange={this.props.handleCheck} type="checkbox" name="goodcheck" value="A"/>
+                    <input onChange={this.props.handleCheck} type="checkbox" name="goodcheck" value="B"/>
+                    <input onChange={this.props.handleCheck} type="checkbox" name="goodcheck" value="C"/>
+                </span>
+            )
+        }
+    });
+    var Messagebox = React.render(<Message/>,document.getElementById('app'));
+</script>
+</body>
+</html>
